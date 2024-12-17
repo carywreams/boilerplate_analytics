@@ -1,0 +1,44 @@
+---
+title: Water Usage Summary Data
+author: me
+date: "Updated `r Sys.Date()`"
+geometry: "top=1.0in, bottom=0.75in, left=0.75in, right=0.75in"
+output:
+    pdf_document:
+        template: ../templates/template.tex
+        toc: no
+        number_sections: no
+---
+
+```{r echo = FALSE, message = FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+wu <- readRDS("../data_models/water-usage/model.Rds")
+```
+
+# Summary Data
+
+```{r summary_ch, echo = FALSE}
+wu_report <- wu |>
+ dplyr::select(
+    "WaterScore",
+    "Reading_Date",
+    "Customer_GPD",
+    "Average_Households_GPD")
+
+wu_report |> summary()
+
+```
+
+# Raw Data
+
+```{r raw_ch, echo = FALSE, results='asis' }
+
+wu_report |>
+    knitr::kable("latex",longtable = TRUE,
+                 col.names = c("Rating", "Date","Gal/Day","Avg HH g/d")) |>
+    kableExtra::kable_styling(latex_options = c("hold_position","repeat_header"))
+
+```

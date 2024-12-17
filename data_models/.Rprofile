@@ -1,0 +1,5 @@
+.libPaths("/opt/rlib/4.4.1")
+options(width = as.integer(system("tput cols", intern = TRUE)))
+model <- readRDS('./model.Rds')
+summary(model)
+ls()
