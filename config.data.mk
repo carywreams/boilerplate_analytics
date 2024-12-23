@@ -2,6 +2,9 @@
 
 RECORDS:=$(sort $(wildcard data_models/*/records.dat))
 MODELS:=$(subst records.dat,model.Rds,$(RECORDS))
+INTAKE:=data_models/lib/intake.Rscript
+DDEXTRACT:=data_models/lib/data_dictionary_extraction.awk
+
 
 # so the data_models/<model-name> exists
 #    with a derive.Rscript instead of an intake.Rscript
@@ -10,13 +13,22 @@ DERIVED_MODELS:=$(subst derive.Rscript,model.Rds,$(sort $(wildcard data_models/*
 
 
 # dependencies
-data_models/water-usage/model.Rds: data_models/water-usage/intake.Rscript
+data_models/water-usage/model.Rds: $(INTAKE)
 data_models/water-usage/model.Rds: data_models/water-usage/records.dat
+data_models/water-usage/model.Rds: data_models/water-usage/data_dictionary.R
+data_models/water-usage/data_dictionary.R: $(DDEXTRACT)
+data_models/water-usage/data_dictionary.R: data_models/water-usage/data_dictionary.dat
+
+
+data_models/%/data_dictionary.R:
+	@echo "-- $@"
+	@$(DDEXTRACT) $(subst .R,.dat,$@) > $@
+
 
 # build rule
 data_models/%/model.Rds:
 	@echo "-- $@"
-	@$(subst model.Rds,intake.Rscript,$@)  $(subst model.Rds,records.dat,$@) $@
+	@$(INTAKE) $(subst model.Rds,records.dat,$@) $(subst model.Rds,data_dictionary.R,$@) $@
 
 
 # derived models
