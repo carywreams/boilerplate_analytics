@@ -1,0 +1,12 @@
+field_name             |column_seqn |units           |model_type |introduction |description
+Account_Number         |          1 |none            |factor     |inception    |utility account number, removed in this example
+Reading_Date           |          2 |date:YYYY-MM-DD |character  |inception    |date recorded at time meter was read
+Days_in_Read_Period    |          3 |days            |numeric    |inception    |days since prior meter reading
+Meter_Reading          |          4 |none            |numeric    |inception    |unknown, empty in download
+HGAL                   |          5 |hundred_gallons |numeric    |inception    |arcane unit of measure recording water volume passing through meter
+Customer_GPD           |          6 |gallons_per_day |numeric    |inception    |normalized water volume this customer
+Average_Households_GPD |          7 |gallons_per_day |numeric    |inception    |average normalized water volume; unknown subset of customers
+Most_Efficient_GPD     |          8 |gallons_per_day |numeric    |inception    |presumably the min() value in same unknown subset of customers
+WaterScore             |          9 |none            |factor     |inception    |appears to be a seasonally-adjusted score
+Meter_Class            |         10 |none            |factor     |inception    |unknown
+Meter                  |         11 |none            |factor     |inception    |utility customer meter number, removed in this example
