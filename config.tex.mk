@@ -6,12 +6,14 @@ TEX_REPORTS:=$(subst reports,.,$(subst tex,pdf,$(TEX)))
 breaker-panel.tex.pdf: reports/breaker-panel.tex
 
 
+
+# latexmk will simply create the .pdf file, ignoring the desired .tex.pdf
+# the last line in this recipe addresses that issue, by renaming final
+# output to follow convention
 %.tex.pdf: reports/%.tex
 	@echo "-- $@"
 	@cp $< ./
-	@latexmk $(notdir $<)
-	@rm -f $(subst .tex.pdf,.aux,$@)
-	@rm -f $(subst .tex.pdf,.fdb_latexmk,$@)
-	@rm -f $(subst .tex.pdf,.fls,$@)
-	@rm -f $(subst .tex.pdf,.log,$@)
-	@rm -f $(notdir $<)
+	@latexmk -gg $(notdir $<)
+	@latexmk -c $(notdir $<)
+	@rm -f $(subst .tex.pdf,.tex,$@)
+	@mv $(subst .tex.pdf,.pdf,$@) $@
