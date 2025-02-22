@@ -2,6 +2,7 @@
 
 include config.data.mk
 include config.Rmd.mk
+include config.tex.mk
 
 # build target
 data: $(MODELS) $(DERIVED_MODELS)
